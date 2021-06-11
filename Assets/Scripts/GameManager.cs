@@ -19,9 +19,13 @@ public class GameManager : MonoBehaviour
     private Character _startingCharacter = null;
     [SerializeField]
     private float _maxTimeWithoutLifeSupport = 10f;
+    [SerializeField]
+    private int _requiredCharactersAtEndForSuccess = 1;
 
     private HashSet<BasePowerUp> _activePowerUps;
     public IReadOnlyList<BasePowerUp> ActivePowerUps => new List<BasePowerUp>(_activePowerUps);
+
+    private HashSet<Character> _charactersAtEnd;
 
     private int _selectedCharactedIdx;
     private float _lifeSupportTimer;
@@ -43,20 +47,12 @@ public class GameManager : MonoBehaviour
         if(!IsPowerUpActive(PowerUpIdentifier.LifeSupport))
         {
             _lifeSupportTimer -= Time.deltaTime;
+            EvaluateFailureState();
         }
         else
         {
             _lifeSupportTimer = _maxTimeWithoutLifeSupport;
-        }
-
-        if(_lifeSupportTimer <= 0)
-        {
-            _gameState = GameState.Failed;
-            Debug.Log("Game over man, game over!");
-            foreach(Character character in _characters)
-            {
-                //character.Kill();
-            }
+            EvaluateSuccessState();
         }
     }
 
@@ -66,14 +62,25 @@ public class GameManager : MonoBehaviour
         {
             Instance = null;
         }
+
+        CleanUp();
     }
 
     private void Init()
     {
         _activePowerUps = new HashSet<BasePowerUp>();
+        _charactersAtEnd = new HashSet<Character>();
         _lifeSupportTimer = _maxTimeWithoutLifeSupport;
         _gameState = GameState.InProgress;
+        LevelEnd.LevelEndEnter += OnLevelEndEnter;
+        LevelEnd.LevelEndExit += OnLevelEndExit;
         InitCharacter();
+    }
+
+    private void CleanUp()
+    {
+        LevelEnd.LevelEndEnter -= OnLevelEndEnter;
+        LevelEnd.LevelEndExit -= OnLevelEndExit;
     }
 
     private void InitCharacter()
@@ -99,6 +106,42 @@ public class GameManager : MonoBehaviour
         }
 
         _characters[_selectedCharactedIdx].SetEnabled(true);
+    }
+
+    private void EvaluateSuccessState()
+    {
+        int characterCountAtEnd = _charactersAtEnd.Count;
+        if(_requiredCharactersAtEndForSuccess <= 0 && characterCountAtEnd < _characters.Length)
+        {
+            return;
+        }
+
+        if(characterCountAtEnd < _requiredCharactersAtEndForSuccess)
+        {
+            return;
+        }
+
+        _gameState = GameState.Accomplished;
+        Debug.Log("You won!");
+        foreach(Character character in _characters)
+        {
+            //character.LevelCompleted();
+        }
+    }
+
+    private void EvaluateFailureState()
+    {
+        if(_lifeSupportTimer > 0)
+        {
+            return;
+        }
+
+        _gameState = GameState.Failed;
+        Debug.Log("Game over man, game over!");
+        foreach(Character character in _characters)
+        {
+            //character.Kill();
+        }
     }
 
     public void SelectNextCharacter()
@@ -127,4 +170,8 @@ public class GameManager : MonoBehaviour
     public bool IsPowerUpActive(PowerUpIdentifier id) => _activePowerUps.Any(powerUp => powerUp.Id == id);
 
     public int GetActivePowerUpCount(PowerUpIdentifier id) => _activePowerUps.Count(powerUp => powerUp.Id == id);
+
+    private void OnLevelEndEnter(Character character) => _charactersAtEnd.Add(character);
+
+    private void OnLevelEndExit(Character character) => _charactersAtEnd.Remove(character);
 }
