@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class BasePowerUp : MonoBehaviour
+public class BasePowerUp : MonoBehaviour
 {
     [SerializeField]
     private PowerUpIdentifier _id;

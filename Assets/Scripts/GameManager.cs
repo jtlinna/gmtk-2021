@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private enum GameState { InProgress, Failed, Accomplished }
     public static GameManager Instance { get; private set; }
 
     public delegate void PowerUpEventHandler(BasePowerUp powerUp);
@@ -16,16 +17,47 @@ public class GameManager : MonoBehaviour
     private Character[] _characters = new Character[0];
     [SerializeField]
     private Character _startingCharacter = null;
+    [SerializeField]
+    private float _maxTimeWithoutLifeSupport = 10f;
 
     private HashSet<BasePowerUp> _activePowerUps;
     public IReadOnlyList<BasePowerUp> ActivePowerUps => new List<BasePowerUp>(_activePowerUps);
 
     private int _selectedCharactedIdx;
+    private float _lifeSupportTimer;
+    private GameState _gameState;
 
     private void Awake()
     {
         Instance = this;
         Init();
+    }
+
+    private void Update()
+    {
+        if(_gameState != GameState.InProgress)
+        {
+            return;
+        }
+
+        if(!IsPowerUpActive(PowerUpIdentifier.LifeSupport))
+        {
+            _lifeSupportTimer -= Time.deltaTime;
+        }
+        else
+        {
+            _lifeSupportTimer = _maxTimeWithoutLifeSupport;
+        }
+
+        if(_lifeSupportTimer <= 0)
+        {
+            _gameState = GameState.Failed;
+            Debug.Log("Game over man, game over!");
+            foreach(Character character in _characters)
+            {
+                //character.Kill();
+            }
+        }
     }
 
     private void OnDestroy()
@@ -39,6 +71,8 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         _activePowerUps = new HashSet<BasePowerUp>();
+        _lifeSupportTimer = _maxTimeWithoutLifeSupport;
+        _gameState = GameState.InProgress;
         InitCharacter();
     }
 
