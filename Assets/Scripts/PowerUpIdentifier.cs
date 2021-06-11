@@ -1,4 +1,5 @@
 ﻿public enum PowerUpIdentifier
 {
-    None = 0
+    None = 0,
+    LifeSupport = 1
 }
