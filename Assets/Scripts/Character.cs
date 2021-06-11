@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,11 +9,36 @@ public class Character : MonoBehaviour
     private ControlScheme _controlScheme;
 
     private Vector2 _movementDirection = Vector2.zero;
+    private float _verticalMovementVelocity = 0f;
 
-    private
+    [SerializeField]
+    private CinemachineVirtualCamera _vCam = null;
+    [SerializeField]
+    private CharacterController _characterController = null;
+    [SerializeField]
+    private Transform _graphicsTransform = null;
+    [SerializeField]
+    private float _gravityMultiplier = 5f;
+    [SerializeField]
+    private float _movementSpeed = 10f;
+    [SerializeField]
+    private float _jumpPower = 30f;
+
+    public void OnValidate()
+    {
+        if(_characterController == null)
+        {
+            _characterController = GetComponent<CharacterController>();
+        }
+
+        if(_vCam == null)
+        {
+            _vCam = GetComponentInChildren<CinemachineVirtualCamera>();
+        }
+    }
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         _controlScheme = new ControlScheme();
         _controlScheme.Enable();
@@ -23,10 +49,9 @@ public class Character : MonoBehaviour
         _controlScheme.Yeet.MovementY.canceled += OnMovementY;
 
         _controlScheme.Yeet.Action.performed += OnAction;
-        _controlScheme.Yeet.SelectNextCharacter.performed += OnSelectNextCharacter;
     }
 
-    void OnDestroy()
+    public void OnDestroy()
     {
         _controlScheme.Yeet.MovementX.performed -= OnMovementX;
         _controlScheme.Yeet.MovementX.canceled -= OnMovementX;
@@ -35,38 +60,60 @@ public class Character : MonoBehaviour
         _controlScheme.Yeet.MovementY.canceled -= OnMovementY;
 
         _controlScheme.Yeet.Action.performed -= OnAction;
-        _controlScheme.Yeet.SelectNextCharacter.performed -= OnSelectNextCharacter;
 
         _controlScheme.Disable();
         _controlScheme = null;
     }
 
     // Update is called once per frame
-    void Update() { }
+    public void Update() { }
 
-    void FixedUpdate()
+    public void FixedUpdate()
     {
-        Debug.Log($"Movement: {_movementDirection}");
+        _verticalMovementVelocity = ApplyGravity(_verticalMovementVelocity);
+
+        Vector2 playerInputDirection = Vector2.zero;
+        if(_movementDirection != Vector2.zero)
+        {
+            playerInputDirection = _movementDirection.normalized * _movementSpeed;
+            TurnCharacter(-Vector2.SignedAngle(Vector2.up, playerInputDirection));
+        }
+
+        Vector3 frameMovement = new Vector3(playerInputDirection.x, _verticalMovementVelocity, playerInputDirection.y) * Time.fixedDeltaTime;
+
+        _characterController.Move(frameMovement);
     }
 
     private float ApplyGravity(float currentVerticalVelocity)
     {
-        return 0f;
+        if(currentVerticalVelocity <= 0 && _characterController.isGrounded)
+        {
+            return -1f;
+        }
+
+        float adjustedVerticalVelocity = currentVerticalVelocity - (GRAVITY_ACCELERATION * _gravityMultiplier * Time.fixedDeltaTime);
+        return adjustedVerticalVelocity;
+    }
+
+    private void TurnCharacter(float angle)
+    {
+        _graphicsTransform.localRotation = Quaternion.Euler(0, angle, 0);
     }
 
     public void SetEnabled(bool f)
     {
-
+        _vCam.gameObject.SetActive(f);
     }
+
+    public void KillCharacter() { }
 
     private void OnAction(InputAction.CallbackContext obj)
     {
-        Debug.Log("ACTION!");
-    }
-
-    private void OnSelectNextCharacter(InputAction.CallbackContext obj)
-    {
-        Debug.Log("SWITCH!");
+        // TODO: Add check for power-up
+        if(_characterController.isGrounded)
+        {
+            _verticalMovementVelocity = _jumpPower;
+        }
     }
 
     private void OnMovementX(InputAction.CallbackContext obj) => _movementDirection.x = obj.ReadValue<float>();
