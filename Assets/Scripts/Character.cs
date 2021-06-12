@@ -102,7 +102,9 @@ public class Character : MonoBehaviour
         _characterActive = f;
     }
 
-    public void KillCharacter() { }
+    public void Kill() { }
+
+    public void LevelCompleted() { }
 
     private void OnAction(InputAction.CallbackContext obj)
     {

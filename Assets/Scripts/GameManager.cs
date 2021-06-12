@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("You won!");
         foreach(Character character in _characters)
         {
-            //character.LevelCompleted();
+            character.LevelCompleted();
         }
     }
 
@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game over man, game over!");
         foreach(Character character in _characters)
         {
-            //character.Kill();
+            character.Kill();
         }
     }
 
