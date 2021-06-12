@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class LifeSupportElement : MonoBehaviour
@@ -13,6 +14,15 @@ public class LifeSupportElement : MonoBehaviour
         if(_progressBar == null)
         {
             _progressBar = GetComponentInChildren<Slider>();
+        }
+    }
+
+    private IEnumerator Start()
+    {
+        yield return new WaitUntil(() => GameManager.Instance != null);
+        if(_progressBar != null)
+        {
+            _progressBar.value = GameManager.Instance.LifeSupportPercentage;
         }
     }
 
