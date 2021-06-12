@@ -28,7 +28,7 @@ public class TransitionHandler : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         SetActive(true);
         _transitionCanvas.overrideSorting = true;
-        _transitionCanvas.sortingOrder = 99999;
+        _transitionCanvas.sortingOrder = 30000;
         StartCoroutine(Transition());
         return true;
     }
