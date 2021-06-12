@@ -37,7 +37,6 @@ public class Character : MonoBehaviour
 
     private float _currentMovementSpeed = 0f;
     private float _lastGroundedAt;
-    private bool _jumpAllowed = true;
 
     public void OnValidate()
     {
