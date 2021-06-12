@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
 
     private bool _zoomedOut = false;
 
+    public float LifeSupportPercentage => Mathf.Clamp01(_lifeSupportTimer / _maxTimeWithoutLifeSupport);
+
     private void Awake()
     {
         Instance = this;
