@@ -190,6 +190,20 @@ public class GameManager : MonoBehaviour
     public bool IsPowerUpActive(PowerUpIdentifier id) => _activePowerUps.Any(powerUp => powerUp.Id == id);
 
     public int GetActivePowerUpCount(PowerUpIdentifier id) => _activePowerUps.Count(powerUp => powerUp.Id == id);
+    public int GetUniquePowerUpCount()
+    {
+        HashSet<PowerUpIdentifier> ids = new HashSet<PowerUpIdentifier>();
+        int count = 0;
+        foreach(BasePowerUp powerUp in _activePowerUps)
+        {
+            if(ids.Add(powerUp.Id))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
 
     private void OnLevelEndEnter(Character character) => _charactersAtEnd.Add(character);
 
