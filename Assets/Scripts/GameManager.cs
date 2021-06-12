@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour
     private float _lifeSupportTimer;
     private GameState _gameState;
 
+    private bool _zoomedOut = false;
+
     private void Awake()
     {
         Instance = this;
@@ -46,7 +49,11 @@ public class GameManager : MonoBehaviour
 
         if(!IsPowerUpActive(PowerUpIdentifier.LifeSupport))
         {
-            _lifeSupportTimer -= Time.deltaTime;
+            if(!_zoomedOut)
+            {
+                _lifeSupportTimer -= Time.deltaTime;
+            }
+
             EvaluateFailureState();
         }
         else
@@ -74,6 +81,10 @@ public class GameManager : MonoBehaviour
         _gameState = GameState.InProgress;
         LevelEnd.LevelEndEnter += OnLevelEndEnter;
         LevelEnd.LevelEndExit += OnLevelEndExit;
+
+        InputManager.ControlScheme.Yeet.ZoomOut.performed += OnZoomOut;
+        InputManager.ControlScheme.Yeet.SelectNextCharacter.performed += OnSelectNextCharacter;
+
         InitCharacter();
     }
 
@@ -81,6 +92,9 @@ public class GameManager : MonoBehaviour
     {
         LevelEnd.LevelEndEnter -= OnLevelEndEnter;
         LevelEnd.LevelEndExit -= OnLevelEndExit;
+
+        InputManager.ControlScheme.Yeet.ZoomOut.performed -= OnZoomOut;
+        InputManager.ControlScheme.Yeet.SelectNextCharacter.performed -= OnSelectNextCharacter;
     }
 
     private void InitCharacter()
@@ -151,6 +165,12 @@ public class GameManager : MonoBehaviour
         _characters[_selectedCharactedIdx].SetEnabled(true);
     }
 
+    public void ToggleZoomOut()
+    {
+        _zoomedOut = !_zoomedOut;
+        _characters[_selectedCharactedIdx].SetEnabled(!_zoomedOut);
+    }
+
     public void RegisterPowerUp(BasePowerUp powerUp)
     {
         if(_activePowerUps.Add(powerUp))
@@ -174,4 +194,7 @@ public class GameManager : MonoBehaviour
     private void OnLevelEndEnter(Character character) => _charactersAtEnd.Add(character);
 
     private void OnLevelEndExit(Character character) => _charactersAtEnd.Remove(character);
+
+    private void OnZoomOut(InputAction.CallbackContext obj) => ToggleZoomOut();
+    private void OnSelectNextCharacter(InputAction.CallbackContext obj) => SelectNextCharacter();
 }

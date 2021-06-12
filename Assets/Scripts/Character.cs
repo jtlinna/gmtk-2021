@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,7 +7,7 @@ public class Character : MonoBehaviour
 {
     private const float GRAVITY_ACCELERATION = 9.81f;
 
-    private ControlScheme _controlScheme;
+    private bool _characterActive = true;
 
     private Vector2 _movementDirection = Vector2.zero;
     private float _verticalMovementVelocity = 0f;
@@ -40,29 +41,24 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        _controlScheme = new ControlScheme();
-        _controlScheme.Enable();
-        _controlScheme.Yeet.MovementX.performed += OnMovementX;
-        _controlScheme.Yeet.MovementX.canceled += OnMovementX;
+        InputManager.ControlScheme.Yeet.MovementX.performed += OnMovementX;
+        InputManager.ControlScheme.Yeet.MovementX.canceled += OnMovementX;
 
-        _controlScheme.Yeet.MovementY.performed += OnMovementY;
-        _controlScheme.Yeet.MovementY.canceled += OnMovementY;
+        InputManager.ControlScheme.Yeet.MovementY.performed += OnMovementY;
+        InputManager.ControlScheme.Yeet.MovementY.canceled += OnMovementY;
 
-        _controlScheme.Yeet.Action.performed += OnAction;
+        InputManager.ControlScheme.Yeet.Action.performed += OnAction;
     }
 
     public void OnDestroy()
     {
-        _controlScheme.Yeet.MovementX.performed -= OnMovementX;
-        _controlScheme.Yeet.MovementX.canceled -= OnMovementX;
+        InputManager.ControlScheme.Yeet.MovementX.performed -= OnMovementX;
+        InputManager.ControlScheme.Yeet.MovementX.canceled -= OnMovementX;
 
-        _controlScheme.Yeet.MovementY.performed -= OnMovementY;
-        _controlScheme.Yeet.MovementY.canceled -= OnMovementY;
+        InputManager.ControlScheme.Yeet.MovementY.performed -= OnMovementY;
+        InputManager.ControlScheme.Yeet.MovementY.canceled -= OnMovementY;
 
-        _controlScheme.Yeet.Action.performed -= OnAction;
-
-        _controlScheme.Disable();
-        _controlScheme = null;
+        InputManager.ControlScheme.Yeet.Action.performed -= OnAction;
     }
 
     // Update is called once per frame
@@ -73,7 +69,7 @@ public class Character : MonoBehaviour
         _verticalMovementVelocity = ApplyGravity(_verticalMovementVelocity);
 
         Vector2 playerInputDirection = Vector2.zero;
-        if(_movementDirection != Vector2.zero)
+        if(_characterActive && _movementDirection != Vector2.zero)
         {
             playerInputDirection = _movementDirection.normalized * _movementSpeed;
             TurnCharacter(-Vector2.SignedAngle(Vector2.up, playerInputDirection));
@@ -103,12 +99,18 @@ public class Character : MonoBehaviour
     public void SetEnabled(bool f)
     {
         _vCam.gameObject.SetActive(f);
+        _characterActive = f;
     }
 
     public void KillCharacter() { }
 
     private void OnAction(InputAction.CallbackContext obj)
     {
+        if(!_characterActive)
+        {
+            return;
+        }
+
         // TODO: Add check for power-up
         if(_characterController.isGrounded)
         {

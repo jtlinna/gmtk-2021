@@ -49,6 +49,14 @@ public class @ControlScheme : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ZoomOut"",
+                    ""type"": ""Button"",
+                    ""id"": ""650a67a1-8cda-4fc4-91f6-e3da08fb7e42"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -227,6 +235,28 @@ public class @ControlScheme : IInputActionCollection, IDisposable
                     ""action"": ""SelectNextCharacter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c772ea4-6fd9-48a1-a336-dbc5d0d0756e"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ZoomOut"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""62684b3d-7e94-4ea6-b4b8-f8056aad5ffa"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ZoomOut"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -256,6 +286,7 @@ public class @ControlScheme : IInputActionCollection, IDisposable
         m_Yeet_MovementY = m_Yeet.FindAction("MovementY", throwIfNotFound: true);
         m_Yeet_Action = m_Yeet.FindAction("Action", throwIfNotFound: true);
         m_Yeet_SelectNextCharacter = m_Yeet.FindAction("SelectNextCharacter", throwIfNotFound: true);
+        m_Yeet_ZoomOut = m_Yeet.FindAction("ZoomOut", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -309,6 +340,7 @@ public class @ControlScheme : IInputActionCollection, IDisposable
     private readonly InputAction m_Yeet_MovementY;
     private readonly InputAction m_Yeet_Action;
     private readonly InputAction m_Yeet_SelectNextCharacter;
+    private readonly InputAction m_Yeet_ZoomOut;
     public struct YeetActions
     {
         private @ControlScheme m_Wrapper;
@@ -317,6 +349,7 @@ public class @ControlScheme : IInputActionCollection, IDisposable
         public InputAction @MovementY => m_Wrapper.m_Yeet_MovementY;
         public InputAction @Action => m_Wrapper.m_Yeet_Action;
         public InputAction @SelectNextCharacter => m_Wrapper.m_Yeet_SelectNextCharacter;
+        public InputAction @ZoomOut => m_Wrapper.m_Yeet_ZoomOut;
         public InputActionMap Get() { return m_Wrapper.m_Yeet; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -338,6 +371,9 @@ public class @ControlScheme : IInputActionCollection, IDisposable
                 @SelectNextCharacter.started -= m_Wrapper.m_YeetActionsCallbackInterface.OnSelectNextCharacter;
                 @SelectNextCharacter.performed -= m_Wrapper.m_YeetActionsCallbackInterface.OnSelectNextCharacter;
                 @SelectNextCharacter.canceled -= m_Wrapper.m_YeetActionsCallbackInterface.OnSelectNextCharacter;
+                @ZoomOut.started -= m_Wrapper.m_YeetActionsCallbackInterface.OnZoomOut;
+                @ZoomOut.performed -= m_Wrapper.m_YeetActionsCallbackInterface.OnZoomOut;
+                @ZoomOut.canceled -= m_Wrapper.m_YeetActionsCallbackInterface.OnZoomOut;
             }
             m_Wrapper.m_YeetActionsCallbackInterface = instance;
             if (instance != null)
@@ -354,6 +390,9 @@ public class @ControlScheme : IInputActionCollection, IDisposable
                 @SelectNextCharacter.started += instance.OnSelectNextCharacter;
                 @SelectNextCharacter.performed += instance.OnSelectNextCharacter;
                 @SelectNextCharacter.canceled += instance.OnSelectNextCharacter;
+                @ZoomOut.started += instance.OnZoomOut;
+                @ZoomOut.performed += instance.OnZoomOut;
+                @ZoomOut.canceled += instance.OnZoomOut;
             }
         }
     }
@@ -373,5 +412,6 @@ public class @ControlScheme : IInputActionCollection, IDisposable
         void OnMovementY(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
         void OnSelectNextCharacter(InputAction.CallbackContext context);
+        void OnZoomOut(InputAction.CallbackContext context);
     }
 }

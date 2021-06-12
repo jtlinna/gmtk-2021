@@ -2169,9 +2169,9 @@ MonoBehaviour:
   _vCam: {fileID: 428171363}
   _characterController: {fileID: 1610552396}
   _graphicsTransform: {fileID: 1902530234}
-  _gravityMultiplier: 5
-  _movementSpeed: 10
-  _jumpPower: 30
+  _gravityMultiplier: 1
+  _movementSpeed: 2
+  _jumpPower: 4.5
 --- !u!143 &1610552396
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2587,7 +2587,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-32886
+  m_Name: pb_Mesh45064
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
