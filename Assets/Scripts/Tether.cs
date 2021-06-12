@@ -1,27 +1,28 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Tether : MonoBehaviour
 {
     [SerializeField]
-    private Transform _point1;
+    private Transform _originPointTransform;
 
-    
     private Vector3 _middlePoint = new Vector3();
 
     [SerializeField]
-    private Transform _point3;
-
+    private Transform _targetPointTransform;
+    
+    private Character _connectedCharacter;
+    
     [SerializeField]
     private LineRenderer _linerenderer;
 
     [SerializeField]
     private float _vertexCount = 12;
 
-    [SerializeField]
     private float _middleYposition = 2f;
 
     [SerializeField]
@@ -30,74 +31,104 @@ public class Tether : MonoBehaviour
     [SerializeField]
     private float _maxSpeed = 2;
 
+    [SerializeField]
+    private AnimationCurve curve = null;
+
     private Transform _originalPoint3;
     private List<Transform> _point3Overrides = new List<Transform>();
 
-    private void Start()
-    {
-        // since the line exists in world space we have to center this object
-        transform.position = Vector3.zero;
-        _originalPoint3 = _point3;
-    }
+    [SerializeField]
+    private float MaxDistance;
+
+    private bool _isConnected;
+    private bool _isTethered;
+    private float _lerpCounter = 0f;
+    private float _distanceThreshold = 0.1f;
+
 
     public void OnCharacterEnter(Character character)
     {
-        if(_point3Overrides.Contains(character.transform))
+        if (_point3Overrides.Contains(character.transform))
         {
             return;
         }
-
         _point3Overrides.Add(character.transform);
-        _point3 = _point3Overrides[0];
+        _isConnected = true;
+        _connectedCharacter = character;
+        _lerpCounter = 0;
+        _isTethered = false;
     }
 
     public void OnCharacterExit(Character character)
     {
-        if(!_point3Overrides.Contains(character.transform))
+        if (!_point3Overrides.Contains(character.transform))
         {
             return;
         }
-
+        
+        _connectedCharacter = null;
+        _middleYposition = 1f;
         _point3Overrides.Remove(character.transform);
-        _point3 = _point3Overrides.Count > 0 ? _point3Overrides[0] : _originalPoint3;
+        _isConnected = false;
+        _lerpCounter = 0f;
+        _middleYposition = 1f;
+        _isTethered = false;
     }
 
     private Vector3 _currentVelocity;
+    private Vector3 _returningVelocity;
     private List<Vector3> _pointList = new List<Vector3>();
+
     void FixedUpdate()
     {
-     // Vector3 stupidOffset = new Vector3(Random.Range(-_randomOffset, _randomOffset),
-     //     Random.Range(-_randomOffset, _randomOffset), Random.Range(-_randomOffset, _randomOffset));
-        
-        
-        _middlePoint = Vector3.SmoothDamp(_middlePoint, new Vector3((_point1.transform.position.x + _point3.transform.position.x) / 2,
-            _middleYposition, (_point1.transform.position.z + _point3.transform.position.z) / 2), ref _currentVelocity, _smoothTime, _maxSpeed, Time.fixedDeltaTime);
-
-        if (1 / _vertexCount <= 1)
+       
+        if (_isConnected)
         {
-            _pointList = new List<Vector3>();
-            for (float ratio = 0; ratio <= 1; ratio += 1 / _vertexCount)
+            _middleYposition =
+                curve.Evaluate(Vector3.Distance(_targetPointTransform.position, _originPointTransform.position) /
+                               MaxDistance);
+            if (_isTethered)
             {
-                Vector3 tangent1 = Vector3.Lerp(_point1.position, _middlePoint, ratio);
-                Vector3 tangent2 = Vector3.Lerp(_middlePoint, _point3.position, ratio);
-                Vector3 curve = Vector3.Lerp(tangent1, tangent2, ratio);
-
-                _pointList.Add(curve);
+                _targetPointTransform.position = _connectedCharacter.transform.position;
             }
-
-            _linerenderer.positionCount = _pointList.Count;
-        }
-        else
-        {
-            for (int i = 0; i < _pointList.Count; i++)
+            else
             {
-                Vector3 tangent1 = Vector3.Lerp(_point1.position, _middlePoint, _pointList[i].z);
-                Vector3 tangent2 = Vector3.Lerp(_middlePoint, _point3.position, _pointList[i].z);
-                Vector3 curve = Vector3.Lerp(tangent1, tangent2, _pointList[i].z);
-                _pointList[i] = curve;
-                Debug.Log("æsdjs");
+                _targetPointTransform.position = Vector3.Lerp(_targetPointTransform.position, _connectedCharacter.transform.position, _lerpCounter += Time.fixedDeltaTime / 5);
+                if (Vector3.Distance(_targetPointTransform.position, _connectedCharacter.transform.position) <= _distanceThreshold)
+                {
+                    _isTethered = true;
+                }
             }
         }
+        else if(!_isTethered)
+        {
+            _targetPointTransform.position = Vector3.Lerp(_targetPointTransform.position, _originPointTransform.position, _lerpCounter += Time.fixedDeltaTime / 5);
+            if (Vector3.Distance(_targetPointTransform.position, _originPointTransform.position) <= _distanceThreshold)
+            {
+                _isTethered = true;
+            }
+        }
+
+        _pointList = new List<Vector3>();
+
+        _middlePoint = Vector3.SmoothDamp(_middlePoint,
+            new Vector3((_originPointTransform.transform.position.x + _targetPointTransform.transform.position.x) / 2,
+                _middleYposition,
+                (_originPointTransform.transform.position.z + _targetPointTransform.transform.position.z) / 2),
+            ref _currentVelocity, _smoothTime, _maxSpeed, Time.fixedDeltaTime);
+
+        for (float ratio = 0; ratio <= 1; ratio += 1 / _vertexCount)
+        {
+            Vector3 tangent1 = Vector3.Lerp(_originPointTransform.position, _middlePoint, ratio);
+            Vector3 tangent2 = Vector3.Lerp(_middlePoint, _targetPointTransform.position, ratio);
+            Vector3 curve = Vector3.Lerp(tangent1, tangent2, ratio);
+
+            _pointList.Add(curve);
+        }
+
+
+        _linerenderer.positionCount = _pointList.Count;
+
 
         _linerenderer.SetPositions(_pointList.ToArray());
     }
