@@ -163,6 +163,11 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        LevelFail();
+    }
+
+    public void LevelFail()
+    {
         _gameState = GameState.Failed;
         Debug.Log("Game over man, game over!");
         foreach(Character character in _characters)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,7 @@ public class Character : MonoBehaviour
     private readonly RaycastHit[] _raycastHelper = new RaycastHit[5];
 
     private bool _characterActive = true;
+    private bool _blockUpdate = false;
 
     private Vector2 _movementDirection = Vector2.zero;
     private float _verticalMovementVelocity = 0f;
@@ -30,8 +32,11 @@ public class Character : MonoBehaviour
     private float _pushDistance = 0.75f;
     [SerializeField]
     private float _jumpPower = 30f;
+    [SerializeField]
+    private float _jumpAllowedAfterAirTimeThreshold = 0.2f;
 
     private float _currentMovementSpeed = 0f;
+    private float _lastGroundedAt;
 
     public void OnValidate()
     {
@@ -77,8 +82,18 @@ public class Character : MonoBehaviour
     public void FixedUpdate()
     {
         RecoverMovementSpeed();
+        if(_blockUpdate)
+        {
+            return;
+        }
+
         HandlePushing();
         HandleMovement();
+
+        if(_characterController.isGrounded)
+        {
+            _lastGroundedAt = Time.time;
+        }
     }
 
     private void HandleMovement()
@@ -104,19 +119,30 @@ public class Character : MonoBehaviour
             return;
         }
 
-        int hits = Physics.RaycastNonAlloc(transform.position + _characterController.center, _graphicsTransform.forward, _raycastHelper, _pushDistance, int.MaxValue, QueryTriggerInteraction.Ignore);
+        PushableCollider pushTarget = GetPushTarget(out RaycastHit hit);
+        if(pushTarget != null)
+        {
+            pushTarget.RigidbodyProxy.AddForce(-hit.normal.normalized * _pushForce * Time.fixedDeltaTime, ForceMode.VelocityChange);
+            _currentMovementSpeed = _movementSpeed * 0.4f;
+        }
+    }
+
+    private PushableCollider GetPushTarget(out RaycastHit hit)
+    {
+        int hits = Physics.RaycastNonAlloc(transform.position + (_characterController.center * 0.5f), _graphicsTransform.forward, _raycastHelper, _pushDistance, int.MaxValue, QueryTriggerInteraction.Ignore);
 
         for(int i = 0; i < hits; i++)
         {
-            RaycastHit hit = _raycastHelper[i];
+            hit = _raycastHelper[i];
 
             if(hit.collider.GetComponentInChildren<PushableCollider>() is PushableCollider pushableCollider)
             {
-                pushableCollider.RigidbodyProxy.AddForce(-hit.normal.normalized * _pushForce * Time.fixedDeltaTime, ForceMode.VelocityChange);
-                _currentMovementSpeed = _movementSpeed * 0.4f;
-                return;
+                return pushableCollider;
             }
         }
+
+        hit = new RaycastHit();
+        return null;
     }
 
     private void RecoverMovementSpeed()
@@ -160,16 +186,83 @@ public class Character : MonoBehaviour
 
     public void LevelCompleted() { }
 
+    private float _preparationDuration = 0.25f;
+    private float _dashDuration = 0.5f;
+    private float _dashDistance = 15f;
+
+    private float _dashHeight = 1f;
+
+    private IEnumerator DashRoutine()
+    {
+        float originHeight = transform.position.y;
+        float preparationTimer = _preparationDuration;
+        float dashTimer = _dashDuration;
+
+        _blockUpdate = true;
+
+        while(preparationTimer > 0f)
+        {
+            preparationTimer -= Time.deltaTime;
+            float prepT = 1f - (preparationTimer / _preparationDuration);
+            float height = Mathf.Lerp(originHeight, originHeight + _dashHeight, prepT);
+
+            transform.position = new Vector3(transform.position.x, height, transform.position.z);
+
+            yield return null;
+        }
+
+        while(dashTimer > 0f)
+        {
+            dashTimer -= Time.deltaTime;
+            float frameMovement = (_dashDistance / _dashDuration) * Time.deltaTime;
+            CollisionFlags flags = _characterController.Move(_graphicsTransform.forward.normalized * frameMovement);
+
+            if((flags & CollisionFlags.Sides) == CollisionFlags.Sides)
+            {
+                // Force transfer from player to a block
+                //PushableCollider pushTarget = GetPushTarget(out RaycastHit hit);
+                //if(pushTarget != null)
+                //{
+                //    pushTarget.RigidbodyProxy.AddForce(-hit.normal.normalized * _pushForce, ForceMode.VelocityChange);
+                //    _currentMovementSpeed = _movementSpeed * 0.4f;
+
+                //    _blockUpdate = false;
+                //    yield break;
+                //}
+            }
+
+            yield return null;
+        }
+
+        _blockUpdate = false;
+    }
+
     private void OnAction(InputAction.CallbackContext obj)
     {
-        if(!_characterActive)
+        if(!_characterActive || _blockUpdate)
         {
             return;
         }
 
-        if(_characterController.isGrounded && GameManager.Instance.IsPowerUpActive(PowerUpIdentifier.Jump))
+        if(_characterController.isGrounded && GameManager.Instance.IsPowerUpActive(PowerUpIdentifier.Dash))
+        {
+            StartCoroutine(DashRoutine());
+            return;
+        }
+
+        bool canJump;
+        if(_jumpAllowedAfterAirTimeThreshold <= 0)
+        {
+            canJump = _characterController.isGrounded;
+        }
+        else
+        {
+            canJump = Time.time <= (_lastGroundedAt + _jumpAllowedAfterAirTimeThreshold);
+        }
+        if(canJump && GameManager.Instance.IsPowerUpActive(PowerUpIdentifier.Jump))
         {
             _verticalMovementVelocity = _jumpPower;
+            _lastGroundedAt = 0;
         }
     }
 
@@ -178,6 +271,6 @@ public class Character : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawRay(transform.position + _characterController.center, _graphicsTransform.forward * _pushDistance);
+        Gizmos.DrawRay(transform.position + (_characterController.center * 0.5f), _graphicsTransform.forward * _pushDistance);
     }
 }
