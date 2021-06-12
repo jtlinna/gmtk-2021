@@ -7,6 +7,8 @@ public class Character : MonoBehaviour
 {
     private const float GRAVITY_ACCELERATION = 9.81f;
 
+    private readonly RaycastHit[] _raycastHelper = new RaycastHit[5];
+
     private bool _characterActive = true;
 
     private Vector2 _movementDirection = Vector2.zero;
@@ -95,7 +97,6 @@ public class Character : MonoBehaviour
         _characterController.Move(frameMovement);
     }
 
-    RaycastHit[] _raycastHelper = new RaycastHit[5];
     private void HandlePushing()
     {
         if(!GameManager.Instance.IsPowerUpActive(PowerUpIdentifier.PushBlocks))
@@ -109,9 +110,9 @@ public class Character : MonoBehaviour
         {
             RaycastHit hit = _raycastHelper[i];
 
-            if(hit.collider.GetComponentInChildren<Rigidbody>() is Rigidbody colliderRb)
+            if(hit.collider.GetComponentInChildren<PushableCollider>() is PushableCollider pushableCollider)
             {
-                colliderRb.AddForce(-hit.normal.normalized * _pushForce * Time.fixedDeltaTime, ForceMode.VelocityChange);
+                pushableCollider.RigidbodyProxy.AddForce(-hit.normal.normalized * _pushForce * Time.fixedDeltaTime, ForceMode.VelocityChange);
                 _currentMovementSpeed = _movementSpeed * 0.4f;
                 return;
             }
