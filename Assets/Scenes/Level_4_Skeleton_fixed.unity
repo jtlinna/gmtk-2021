@@ -23307,7 +23307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7931426747910364314, guid: b1f4523d80a30ea46ba9970c0aa2fe69, type: 3}
       propertyPath: _nextSceneIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7931426747910364314, guid: b1f4523d80a30ea46ba9970c0aa2fe69, type: 3}
       propertyPath: _transitionHandler
