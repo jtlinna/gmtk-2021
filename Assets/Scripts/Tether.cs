@@ -30,10 +30,36 @@ public class Tether : MonoBehaviour
     [SerializeField]
     private float _maxSpeed = 2;
 
+    private Transform _originalPoint3;
+    private List<Transform> _point3Overrides = new List<Transform>();
+
     private void Start()
     {
         // since the line exists in world space we have to center this object
         transform.position = Vector3.zero;
+        _originalPoint3 = _point3;
+    }
+
+    public void OnCharacterEnter(Character character)
+    {
+        if(_point3Overrides.Contains(character.transform))
+        {
+            return;
+        }
+
+        _point3Overrides.Add(character.transform);
+        _point3 = _point3Overrides[0];
+    }
+
+    public void OnCharacterExit(Character character)
+    {
+        if(!_point3Overrides.Contains(character.transform))
+        {
+            return;
+        }
+
+        _point3Overrides.Remove(character.transform);
+        _point3 = _point3Overrides.Count > 0 ? _point3Overrides[0] : _originalPoint3;
     }
 
     private Vector3 _currentVelocity;
