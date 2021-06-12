@@ -269,7 +269,7 @@ public class @ControlScheme : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""680b83d3-1c44-4a11-935f-fd19b138cb0d"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
