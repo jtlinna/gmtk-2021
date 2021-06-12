@@ -56,5 +56,11 @@ public sealed class CharacterEffectHandler : MonoBehaviour
     }
 
     private void OnPowerUpRegistered(BasePowerUp powerUp) => EnableEffect(_effects.FirstOrDefault(e => e.Id == powerUp.Id));
-    private void OnPowerUpUnregistered(BasePowerUp powerUp) => DisableEffect(_effects.FirstOrDefault(e => e.Id == powerUp.Id));
+    private void OnPowerUpUnregistered(BasePowerUp powerUp)
+    {
+        if(GameManager.Instance.GetActivePowerUpCount(powerUp.Id) == 0)
+        {
+            DisableEffect(_effects.FirstOrDefault(e => e.Id == powerUp.Id));
+        }
+    }
 }
