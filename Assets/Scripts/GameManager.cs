@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    private enum GameState { InProgress, Failed, Accomplished }
+    private enum GameState { InProgress, Failed, Accomplished, Paused }
     public static GameManager Instance { get; private set; }
 
     public delegate void PowerUpEventHandler(BasePowerUp powerUp);
@@ -186,6 +186,12 @@ public class GameManager : MonoBehaviour
     {
         _zoomedOut = !_zoomedOut;
         _characters[_selectedCharactedIdx].SetEnabled(!_zoomedOut);
+    }
+
+    public void SetPaused(bool isPaused)
+    {
+        _gameState = isPaused ? GameState.Paused : GameState.InProgress;
+        _characters[_selectedCharactedIdx].SetEnabled(!isPaused);
     }
 
     public void RegisterPowerUp(BasePowerUp powerUp)

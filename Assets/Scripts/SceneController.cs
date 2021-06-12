@@ -19,6 +19,18 @@ public sealed class SceneController : MonoBehaviour
 
     public void LoadNextScene() => HandleLoadScene(_nextSceneIndex);
 
+    public void LoadMainMenu() => HandleLoadScene(0);
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        return;
+#else
+        Application.Quit();
+#endif
+    }
+
     private void HandleLoadScene(int index)
     {
         if(_transitionHandler == null)

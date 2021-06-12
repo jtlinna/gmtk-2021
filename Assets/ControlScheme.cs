@@ -57,6 +57,14 @@ public class @ControlScheme : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""PauseGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f34bf24-b6ac-4bb6-a4bc-bd3be31a93f9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -257,6 +265,28 @@ public class @ControlScheme : IInputActionCollection, IDisposable
                     ""action"": ""ZoomOut"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""680b83d3-1c44-4a11-935f-fd19b138cb0d"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5d940ad-a09c-4451-a6da-69b8489b10ab"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -287,6 +317,7 @@ public class @ControlScheme : IInputActionCollection, IDisposable
         m_Yeet_Action = m_Yeet.FindAction("Action", throwIfNotFound: true);
         m_Yeet_SelectNextCharacter = m_Yeet.FindAction("SelectNextCharacter", throwIfNotFound: true);
         m_Yeet_ZoomOut = m_Yeet.FindAction("ZoomOut", throwIfNotFound: true);
+        m_Yeet_PauseGame = m_Yeet.FindAction("PauseGame", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -341,6 +372,7 @@ public class @ControlScheme : IInputActionCollection, IDisposable
     private readonly InputAction m_Yeet_Action;
     private readonly InputAction m_Yeet_SelectNextCharacter;
     private readonly InputAction m_Yeet_ZoomOut;
+    private readonly InputAction m_Yeet_PauseGame;
     public struct YeetActions
     {
         private @ControlScheme m_Wrapper;
@@ -350,6 +382,7 @@ public class @ControlScheme : IInputActionCollection, IDisposable
         public InputAction @Action => m_Wrapper.m_Yeet_Action;
         public InputAction @SelectNextCharacter => m_Wrapper.m_Yeet_SelectNextCharacter;
         public InputAction @ZoomOut => m_Wrapper.m_Yeet_ZoomOut;
+        public InputAction @PauseGame => m_Wrapper.m_Yeet_PauseGame;
         public InputActionMap Get() { return m_Wrapper.m_Yeet; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -374,6 +407,9 @@ public class @ControlScheme : IInputActionCollection, IDisposable
                 @ZoomOut.started -= m_Wrapper.m_YeetActionsCallbackInterface.OnZoomOut;
                 @ZoomOut.performed -= m_Wrapper.m_YeetActionsCallbackInterface.OnZoomOut;
                 @ZoomOut.canceled -= m_Wrapper.m_YeetActionsCallbackInterface.OnZoomOut;
+                @PauseGame.started -= m_Wrapper.m_YeetActionsCallbackInterface.OnPauseGame;
+                @PauseGame.performed -= m_Wrapper.m_YeetActionsCallbackInterface.OnPauseGame;
+                @PauseGame.canceled -= m_Wrapper.m_YeetActionsCallbackInterface.OnPauseGame;
             }
             m_Wrapper.m_YeetActionsCallbackInterface = instance;
             if (instance != null)
@@ -393,6 +429,9 @@ public class @ControlScheme : IInputActionCollection, IDisposable
                 @ZoomOut.started += instance.OnZoomOut;
                 @ZoomOut.performed += instance.OnZoomOut;
                 @ZoomOut.canceled += instance.OnZoomOut;
+                @PauseGame.started += instance.OnPauseGame;
+                @PauseGame.performed += instance.OnPauseGame;
+                @PauseGame.canceled += instance.OnPauseGame;
             }
         }
     }
@@ -413,5 +452,6 @@ public class @ControlScheme : IInputActionCollection, IDisposable
         void OnAction(InputAction.CallbackContext context);
         void OnSelectNextCharacter(InputAction.CallbackContext context);
         void OnZoomOut(InputAction.CallbackContext context);
+        void OnPauseGame(InputAction.CallbackContext context);
     }
 }
