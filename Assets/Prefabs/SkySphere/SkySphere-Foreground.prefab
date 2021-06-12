@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5639260682099997453}
   - component: {fileID: 8785808341275948200}
   - component: {fileID: 6776089410723790946}
+  - component: {fileID: 6514504343843153426}
   m_Layer: 0
   m_Name: SkySphere-Foreground
   m_TagString: Untagged
@@ -82,3 +83,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6514504343843153426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4974644817298842039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf69ec82f92840b46acb173fb2080d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationSpeed: {x: 1, y: 0.5, z: 1}

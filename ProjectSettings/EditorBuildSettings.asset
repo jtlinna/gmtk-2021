@@ -14,5 +14,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level_2_Skeleton.unity
     guid: 7652978bdf7525246995471eb20e25a2
+  - enabled: 1
+    path: Assets/Scenes/Level_3_Skeleton.unity
+    guid: 30e2a33554ac90c4baeb0f64b1b16545
+  - enabled: 1
+    path: Assets/Scenes/Level_4_Skeleton_fixed.unity
+    guid: e2c1c50bc2bc01f40be76c8ed701ddb0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9e9bdf5e87694a2409fc9beaa7fc15df, type: 2}
