@@ -17,8 +17,8 @@ public class MigrateMaterialsWindow : EditorWindow
 
     private void OnGUI()
     {
-        _original = EditorGUILayout.ObjectField(_original, typeof(Material), false) as Material;
-        _original = EditorGUILayout.ObjectField(_replacement, typeof(Material), false) as Material;
+        _original = EditorGUILayout.ObjectField("Original", _original, typeof(Material), false) as Material;
+        _replacement = EditorGUILayout.ObjectField("Replacement", _replacement, typeof(Material), false) as Material;
 
         using(new EditorGUI.DisabledScope(_original == null || _replacement == null))
         {
