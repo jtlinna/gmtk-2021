@@ -39,6 +39,12 @@ public sealed class SceneController : MonoBehaviour
             return;
         }
 
+        void OnMidPointReached()
+        {
+            _transitionHandler.MidPointReached -= OnMidPointReached;
+            SceneManager.LoadScene(index);
+        }
+
         _transitionHandler.MidPointReached += OnMidPointReached;
         if(_transitionHandler.StartTransition())
         {
@@ -47,11 +53,5 @@ public sealed class SceneController : MonoBehaviour
 
         _transitionHandler.MidPointReached -= OnMidPointReached;
         SceneManager.LoadScene(index);
-    }
-
-    private void OnMidPointReached()
-    {
-        _transitionHandler.MidPointReached -= OnMidPointReached;
-        SceneManager.LoadScene(_nextSceneIndex);
     }
 }
