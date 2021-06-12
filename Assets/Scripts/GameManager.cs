@@ -22,6 +22,10 @@ public class GameManager : MonoBehaviour
     private float _maxTimeWithoutLifeSupport = 10f;
     [SerializeField]
     private int _requiredCharactersAtEndForSuccess = 1;
+    [SerializeField]
+    private GameObject _levelCompleteScreen;
+    [SerializeField]
+    private GameObject _levelFailedScreen;
 
     private HashSet<BasePowerUp> _activePowerUps;
     public IReadOnlyList<BasePowerUp> ActivePowerUps => new List<BasePowerUp>(_activePowerUps);
@@ -85,6 +89,9 @@ public class GameManager : MonoBehaviour
         InputManager.ControlScheme.Yeet.ZoomOut.performed += OnZoomOut;
         InputManager.ControlScheme.Yeet.SelectNextCharacter.performed += OnSelectNextCharacter;
 
+        SetScreenActive(_levelCompleteScreen, false);
+        SetScreenActive(_levelFailedScreen, false);
+
         InitCharacter();
     }
 
@@ -141,6 +148,8 @@ public class GameManager : MonoBehaviour
         {
             character.LevelCompleted();
         }
+
+        SetScreenActive(_levelCompleteScreen, true);
     }
 
     private void EvaluateFailureState()
@@ -156,6 +165,8 @@ public class GameManager : MonoBehaviour
         {
             character.Kill();
         }
+
+        SetScreenActive(_levelFailedScreen, true);
     }
 
     public void SelectNextCharacter()
@@ -203,6 +214,14 @@ public class GameManager : MonoBehaviour
         }
 
         return count;
+    }
+
+    private void SetScreenActive(GameObject screen, bool isActive)
+    {
+        if(screen != null)
+        {
+            screen.SetActive(isActive);
+        }
     }
 
     private void OnLevelEndEnter(Character character) => _charactersAtEnd.Add(character);
