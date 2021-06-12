@@ -39,6 +39,7 @@ public class MigrateMaterialsWindow : EditorWindow
                 if(rend.sharedMaterial == _original)
                 {
                     rend.sharedMaterial = _replacement;
+                    EditorUtility.SetDirty(rend.gameObject);
                 }
             }
         }
