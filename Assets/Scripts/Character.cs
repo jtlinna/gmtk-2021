@@ -34,6 +34,8 @@ public class Character : MonoBehaviour
     private float _jumpPower = 30f;
     [SerializeField]
     private float _jumpAllowedAfterAirTimeThreshold = 0.2f;
+    [SerializeField]
+    private float _yeetForce = 420f;
 
     private float _currentMovementSpeed = 0f;
     private float _lastGroundedAt;
@@ -145,6 +147,24 @@ public class Character : MonoBehaviour
         return null;
     }
 
+    private YeetableCollider GetYeetTarget(out RaycastHit hit)
+    {
+        int hits = Physics.RaycastNonAlloc(transform.position + (_characterController.center * 0.5f), _graphicsTransform.forward, _raycastHelper, _pushDistance, int.MaxValue, QueryTriggerInteraction.Ignore);
+
+        for(int i = 0; i < hits; i++)
+        {
+            hit = _raycastHelper[i];
+
+            if(hit.collider.GetComponentInChildren<YeetableCollider>() is YeetableCollider pushableCollider)
+            {
+                return pushableCollider;
+            }
+        }
+
+        hit = new RaycastHit();
+        return null;
+    }
+
     private void RecoverMovementSpeed()
     {
         if(_currentMovementSpeed >= _movementSpeed)
@@ -220,15 +240,15 @@ public class Character : MonoBehaviour
             if((flags & CollisionFlags.Sides) == CollisionFlags.Sides)
             {
                 // Force transfer from player to a block
-                //PushableCollider pushTarget = GetPushTarget(out RaycastHit hit);
-                //if(pushTarget != null)
-                //{
-                //    pushTarget.RigidbodyProxy.AddForce(-hit.normal.normalized * _pushForce, ForceMode.VelocityChange);
-                //    _currentMovementSpeed = _movementSpeed * 0.4f;
+                YeetableCollider pushTarget = GetYeetTarget(out RaycastHit hit);
+                if(pushTarget != null)
+                {
+                    pushTarget.RigidbodyProxy.AddForce(-hit.normal.normalized * _yeetForce, ForceMode.VelocityChange);
+                    _currentMovementSpeed = _movementSpeed * 0.4f;
 
-                //    _blockUpdate = false;
-                //    yield break;
-                //}
+                    _blockUpdate = false;
+                    yield break;
+                }
             }
 
             yield return null;

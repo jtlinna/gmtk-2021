@@ -5068,6 +5068,8 @@ MonoBehaviour:
   _pushForce: 40
   _pushDistance: 1.5
   _jumpPower: 6
+  _jumpAllowedAfterAirTimeThreshold: 0.2
+  _yeetForce: 69
 --- !u!114 &2132607704072605500
 MonoBehaviour:
   m_ObjectHideFlags: 0
