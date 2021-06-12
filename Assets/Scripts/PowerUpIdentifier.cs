@@ -4,4 +4,5 @@
     LifeSupport = 1,
     PushBlocks = 2,
     Jump = 3,
+    Dash = 4,
 }
