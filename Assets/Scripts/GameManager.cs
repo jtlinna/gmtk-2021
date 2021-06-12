@@ -176,6 +176,7 @@ public class GameManager : MonoBehaviour
         _characters[_selectedCharactedIdx].SetEnabled(false);
         _selectedCharactedIdx = (_selectedCharactedIdx + 1) % _characters.Length;
         _characters[_selectedCharactedIdx].SetEnabled(true);
+        _zoomedOut = false;
     }
 
     public void ToggleZoomOut()
