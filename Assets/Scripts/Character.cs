@@ -32,8 +32,12 @@ public class Character : MonoBehaviour
     private float _pushDistance = 0.75f;
     [SerializeField]
     private float _jumpPower = 30f;
+    [SerializeField]
+    private float _jumpAllowedAfterAirTimeThreshold = 0.2f;
 
     private float _currentMovementSpeed = 0f;
+    private float _lastGroundedAt;
+    private bool _jumpAllowed = true;
 
     public void OnValidate()
     {
@@ -86,6 +90,11 @@ public class Character : MonoBehaviour
 
         HandlePushing();
         HandleMovement();
+
+        if(_characterController.isGrounded)
+        {
+            _lastGroundedAt = Time.time;
+        }
     }
 
     private void HandleMovement()
@@ -242,9 +251,19 @@ public class Character : MonoBehaviour
             return;
         }
 
-        if(_characterController.isGrounded && GameManager.Instance.IsPowerUpActive(PowerUpIdentifier.Jump))
+        bool canJump;
+        if(_jumpAllowedAfterAirTimeThreshold <= 0)
+        {
+            canJump = _characterController.isGrounded;
+        }
+        else
+        {
+            canJump = Time.time <= (_lastGroundedAt + _jumpAllowedAfterAirTimeThreshold);
+        }
+        if(canJump && GameManager.Instance.IsPowerUpActive(PowerUpIdentifier.Jump))
         {
             _verticalMovementVelocity = _jumpPower;
+            _lastGroundedAt = 0;
         }
     }
 
