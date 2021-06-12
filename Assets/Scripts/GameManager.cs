@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
 
         InputManager.ControlScheme.Yeet.ZoomOut.performed += OnZoomOut;
         InputManager.ControlScheme.Yeet.SelectNextCharacter.performed += OnSelectNextCharacter;
+        InputManager.ControlScheme.Enable();
 
         SetScreenActive(_levelCompleteScreen, false);
         SetScreenActive(_levelFailedScreen, false);
@@ -152,6 +153,7 @@ public class GameManager : MonoBehaviour
         }
 
         SetScreenActive(_levelCompleteScreen, true);
+        InputManager.ControlScheme.Disable();
     }
 
     private void EvaluateFailureState()
@@ -169,6 +171,7 @@ public class GameManager : MonoBehaviour
         }
 
         SetScreenActive(_levelFailedScreen, true);
+        InputManager.ControlScheme.Disable();
     }
 
     public void SelectNextCharacter()
