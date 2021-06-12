@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 4437101796852383366}
   - component: {fileID: 737494151962898723}
   - component: {fileID: 3303650154979902953}
+  - component: {fileID: 2504901890297583154}
   m_Layer: 0
-  m_Name: TextureBlock
+  m_Name: TextureBlock.fbx_TextureBlock10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2504901890297583154
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951926539193574460}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6968846074178130577, guid: c3d55617c7cef2d49898cabeb2741318, type: 3}
