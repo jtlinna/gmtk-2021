@@ -166,8 +166,7 @@ public class Character : MonoBehaviour
             return;
         }
 
-        // TODO: Add check for power-up
-        if(_characterController.isGrounded)
+        if(_characterController.isGrounded && GameManager.Instance.IsPowerUpActive(PowerUpIdentifier.Jump))
         {
             _verticalMovementVelocity = _jumpPower;
         }
