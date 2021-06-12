@@ -103,7 +103,7 @@ public class Character : MonoBehaviour
             return;
         }
 
-        int hits = Physics.RaycastNonAlloc(transform.position, _graphicsTransform.forward, _raycastHelper, _pushDistance, int.MaxValue, QueryTriggerInteraction.Ignore);
+        int hits = Physics.RaycastNonAlloc(transform.position + _characterController.center, _graphicsTransform.forward, _raycastHelper, _pushDistance, int.MaxValue, QueryTriggerInteraction.Ignore);
 
         for(int i = 0; i < hits; i++)
         {
@@ -177,6 +177,6 @@ public class Character : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawRay(transform.position, _graphicsTransform.forward * _pushDistance);
+        Gizmos.DrawRay(transform.position + _characterController.center, _graphicsTransform.forward * _pushDistance);
     }
 }
