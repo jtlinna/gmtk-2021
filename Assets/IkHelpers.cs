@@ -94,7 +94,8 @@ public class IkHelpers : MonoBehaviour
 
     private Vector3 _rightHandVelocity;
     private Vector3 _leftHandVelocity;
-    
+
+    private bool _hasWon = false;
     
 
     void loop()
@@ -104,6 +105,11 @@ public class IkHelpers : MonoBehaviour
             new Vector3(_torsoTransform.localPosition.x, 0.003f + yPos, _torsoTransform.localPosition.z);
     }
 
+    public void SetAsWon()
+    {
+        _hasWon = true;
+    }
+
     private void Awake()
     {
         Stand();
@@ -111,6 +117,12 @@ public class IkHelpers : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_hasWon)
+        {
+            _torsoTransform.position = _torsoTransform.position + Vector3.up * 5 * Time.fixedDeltaTime;
+            return;
+        }
+
         loop();
 
         if (_characterController.velocity.magnitude < 0.1f)

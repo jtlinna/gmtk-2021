@@ -56,6 +56,8 @@ public class Character : MonoBehaviour
     private ParticleSystem[] _jumpParticles = new ParticleSystem[0];
 
     [SerializeField]
+    private IkHelpers _ikHelper = null;
+    [SerializeField]
     private Transform _tetherTarget = null;
 
     public Transform GetTetherTransform => _tetherTarget;
@@ -267,7 +269,20 @@ public class Character : MonoBehaviour
 
     public void Kill() { }
 
-    public void LevelCompleted() { }
+    public void LevelCompleted()
+    {
+        if (_ikHelper != null)
+        {
+            _ikHelper.SetAsWon();
+        }
+        foreach(ParticleSystem ps in _jumpParticles)
+        {
+            if(ps != null)
+            {
+                ps.Play();
+            }
+        }
+    }
 
     private float _preparationDuration = 0.25f;
     private float _dashDuration = 0.5f;

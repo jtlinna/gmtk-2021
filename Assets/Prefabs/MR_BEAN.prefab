@@ -576,7 +576,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7763158, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -5569,6 +5569,7 @@ MonoBehaviour:
   - {fileID: 5468193369298304594}
   - {fileID: 5576110589165223309}
   - {fileID: 3534726312947545609}
+  _ikHelper: {fileID: 561566069435102029}
   _tetherTarget: {fileID: 4142221841951747043}
 --- !u!114 &2132607704072605500
 MonoBehaviour:
