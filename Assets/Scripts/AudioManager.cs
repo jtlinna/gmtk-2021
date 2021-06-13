@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Audio;
 
 public sealed class AudioManager
 {
     private const string SOUNDS_ENABLED = "SoundsEnabled";
     private const string MUSIC_ENABLED = "MusicEnabled";
+
+    private class CoroutineWrapper : MonoBehaviour { }
 
     private AudioMixer _audioMixer;
 
@@ -26,6 +29,8 @@ public sealed class AudioManager
 
     public bool IsSoundsEnabled => PlayerPrefs.GetInt(SOUNDS_ENABLED, 1) != 0;
 
+    private AudioSource _musicSource;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Init()
     {
@@ -35,21 +40,38 @@ public sealed class AudioManager
     private AudioManager()
     {
         _audioMixer = Resources.Load<AudioMixer>("AudioMixer");
-        SetMusicEnabled(IsMusicEnabled);
-        SetSoundsEnabled(IsSoundsEnabled);
-        GameObject musicSource = Object.Instantiate(Resources.Load<GameObject>("MusicSource"));
-        Object.DontDestroyOnLoad(musicSource);
+        Debug.Log($"Audio manager is initializing -- {nameof(IsMusicEnabled)} {IsMusicEnabled} -- {nameof(IsSoundsEnabled)} {IsSoundsEnabled}");
+        _musicSource = Object.Instantiate(Resources.Load<AudioSource>("MusicSource"));
+        _musicSource.gameObject.AddComponent<CoroutineWrapper>().StartCoroutine(InitJob());
+        Object.DontDestroyOnLoad(_musicSource.gameObject);
     }
 
     public void SetSoundsEnabled(bool isEnabled)
     {
         PlayerPrefs.SetInt(SOUNDS_ENABLED, isEnabled ? 1 : 0);
-        _audioMixer.SetFloat("SoundsVolume", isEnabled ? -80 : 0);
+        _audioMixer.SetFloat("SoundsVolume", isEnabled ? 0 : -80);
     }
 
-    public void SetMusicEnabled(bool isMuted)
+    public void SetMusicEnabled(bool isEnabled)
     {
-        PlayerPrefs.SetInt(MUSIC_ENABLED, isMuted ? 1 : 0);
-        _audioMixer.SetFloat("MusicVolume", isMuted ? -80 : 0);
+        PlayerPrefs.SetInt(MUSIC_ENABLED, isEnabled ? 1 : 0);
+        _audioMixer.SetFloat("MusicVolume", isEnabled ? 0 : -80);
+        if(isEnabled && !_musicSource.isPlaying)
+        {
+            _musicSource.Play();
+        }
+    }
+
+    private IEnumerator InitJob()
+    {
+        yield return null;
+        bool isMusicEnabled = IsMusicEnabled;
+        SetMusicEnabled(isMusicEnabled);
+        SetSoundsEnabled(IsSoundsEnabled);
+
+        if(isMusicEnabled)
+        {
+            _musicSource.Play();
+        }
     }
 }

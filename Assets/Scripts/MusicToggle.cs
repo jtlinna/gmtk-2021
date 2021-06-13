@@ -4,5 +4,5 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Toggle))]
 public sealed class MusicToggle : MonoBehaviour
 {
-    void OnEnable() => GetComponent<Toggle>().isOn = AudioManager.Instance.IsMusicEnabled;
+    void OnEnable() => GetComponent<Toggle>().SetIsOnWithoutNotify(AudioManager.Instance.IsMusicEnabled);
 }
