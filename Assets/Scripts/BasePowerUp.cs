@@ -10,6 +10,12 @@ public class BasePowerUp : MonoBehaviour
     [SerializeField]
     private PowerUpIdentifier _id;
     public PowerUpIdentifier Id => _id;
+    [SerializeField]
+    private AudioSource _audioSource;
+    [SerializeField]
+    private AudioClip _enterAudio;
+    [SerializeField]
+    private AudioClip _exitAudio;
 
     public PowerUpCharacterEvent CharacterEnter;
     public PowerUpCharacterEvent CharacterExit;
@@ -42,6 +48,7 @@ public class BasePowerUp : MonoBehaviour
         }
 
         CharacterEnter?.Invoke(character);
+        AudioUtils.PlayOneShot(_audioSource, _enterAudio);
         if(prevCount == 0)
         {
             GameManager.Instance.RegisterPowerUp(this);
@@ -62,6 +69,7 @@ public class BasePowerUp : MonoBehaviour
         }
 
         CharacterExit?.Invoke(character);
+        AudioUtils.PlayOneShot(_audioSource, _exitAudio);
         if(_affectedCharacters.Count == 0)
         {
             GameManager.Instance.UnregisterPowerUp(this);
