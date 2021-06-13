@@ -43,11 +43,15 @@ public class Character : MonoBehaviour
     [SerializeField]
     private float _landingAudioDelay = 0.25f;
     [SerializeField]
+    private float _footStepInterval = 0.2f;
+    [SerializeField]
     private AudioSource _oneShotAudioSource;
     [SerializeField]
     private AudioClip _jumpAudio;
     [SerializeField]
     private AudioClip _landingAudio;
+    [SerializeField]
+    private AudioSource _footStepAudioSource;
     [SerializeField]
     private ParticleSystem[] _jumpParticles = new ParticleSystem[0];
 
@@ -62,6 +66,7 @@ public class Character : MonoBehaviour
     private float _landingAudioAllowedAt;
 
     private bool _hasJumped = false;
+    private float _footStepTimer = 0f;
 
     public void OnValidate()
     {
@@ -108,6 +113,8 @@ public class Character : MonoBehaviour
         {
             AudioUtils.Stop(_pushAudioSource);
         }
+
+        HandleFootSteps();
     }
 
     public void FixedUpdate()
@@ -235,6 +242,21 @@ public class Character : MonoBehaviour
     private void TurnCharacter(float angle)
     {
         _graphicsTransform.localRotation = Quaternion.Euler(0, angle, 0);
+    }
+
+    private void HandleFootSteps()
+    {
+        if(!_characterActive)
+        {
+            return;
+        }
+        _footStepTimer -= Time.deltaTime;
+
+        if(_movementDirection.magnitude >= 0.05f && _footStepTimer <= 0f && !_hasJumped)
+        {
+            AudioUtils.Play(_footStepAudioSource);
+            _footStepTimer = _footStepInterval;
+        }
     }
 
     public void SetEnabled(bool f)

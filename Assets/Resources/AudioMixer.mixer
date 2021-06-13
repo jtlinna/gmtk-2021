@@ -94,6 +94,25 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!243 &-1967353320877589750
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FootStepSFX
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: 66ff8c71dd1b2e449acb46446508ed79
+  m_Children: []
+  m_Volume: a8182cb727808234d87cc42ffed766d2
+  m_Pitch: 9105bb7b5590cdd45a85a61c14a6796e
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 2272253264220896528}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -124,6 +143,7 @@ AudioMixerController:
     - 3efc0639a252add4d8f28ff379383a97
     - 392f2d654d1be1747a5d1cc70c498de7
     - 9e0a04ba01ea82548a7ca15ff4e2fa43
+    - 66ff8c71dd1b2e449acb46446508ed79
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -175,6 +195,8 @@ AudioMixerSnapshotController:
     d9b5a8b0f3609404fb3cc687f291e145: -12.498483
     5d512493b06fefd409f95910e812a4a8: -39.703533
     ca626ac4a9d92a044be73730ed0d93b5: 0
+    a8182cb727808234d87cc42ffed766d2: -16.035946
+    dd1f212bf65dfbb4f96d5a5ebeca50f7: -5.3230715
     34812ace4c35db04ea064592c1119cec: -19.928473
     074df62f0c5b92a498437c559f6f962a: 0
   m_TransitionOverrides: {}
@@ -211,6 +233,20 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &2272253264220896528
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 842804a8c2368e040916c76828c0fdef
+  m_EffectName: Attenuation
+  m_MixLevel: cad33a40837533541995389860e993cb
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!243 &3534385381623150352
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -258,6 +294,7 @@ AudioMixerGroupController:
   - {fileID: 3534385381623150352}
   - {fileID: 1348172700924434951}
   - {fileID: -2707736115952076596}
+  - {fileID: -1967353320877589750}
   m_Volume: 7af8fff2abf02b7409c87a130241ddd4
   m_Pitch: 7e707714558f07c49ab679340b44732b
   m_Send: 00000000000000000000000000000000
