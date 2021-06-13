@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     private GameObject _levelCompleteScreen;
     [SerializeField]
     private GameObject _levelFailedScreen;
+    [SerializeField]
+    private List<GameObject> _extraCompletionObjects = new List<GameObject>();
 
     private HashSet<BasePowerUp> _activePowerUps;
     public IReadOnlyList<BasePowerUp> ActivePowerUps => new List<BasePowerUp>(_activePowerUps);
@@ -95,6 +97,14 @@ public class GameManager : MonoBehaviour
         SetScreenActive(_levelCompleteScreen, false);
         SetScreenActive(_levelFailedScreen, false);
 
+        if(_extraCompletionObjects.Count > 0)
+        {
+            foreach(GameObject item in _extraCompletionObjects)
+            {
+                item.SetActive(false);
+            }
+        }
+
         InitCharacter();
     }
 
@@ -153,6 +163,14 @@ public class GameManager : MonoBehaviour
         }
 
         SetScreenActive(_levelCompleteScreen, true);
+        if(_extraCompletionObjects.Count > 0)
+        {
+            foreach(GameObject item in _extraCompletionObjects)
+            {
+                item.SetActive(true);
+            }
+        }
+
         InputManager.ControlScheme.Disable();
     }
 
