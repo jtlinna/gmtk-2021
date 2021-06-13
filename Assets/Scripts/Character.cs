@@ -36,6 +36,16 @@ public class Character : MonoBehaviour
     private float _jumpAllowedAfterAirTimeThreshold = 0.2f;
     [SerializeField]
     private float _yeetForce = 420f;
+    [SerializeField]
+    private AudioSource _pushAudioSource;
+    [SerializeField]
+    private float _pushAudioStopDelay = 0.25f;
+    [SerializeField]
+    private AudioSource _oneShotAudioSource;
+    [SerializeField]
+    private AudioClip _jumpAudio;
+    [SerializeField]
+    private ParticleSystem[] _jumpParticles = new ParticleSystem[0];
 
     [SerializeField]
     private Transform _tetherTarget = null;
@@ -44,6 +54,7 @@ public class Character : MonoBehaviour
 
     private float _currentMovementSpeed = 0f;
     private float _lastGroundedAt;
+    private float _stopPushAudioAt = 0f;
 
     public void OnValidate()
     {
@@ -84,7 +95,13 @@ public class Character : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void Update() { }
+    public void Update()
+    {
+        if(Time.time >= _stopPushAudioAt)
+        {
+            AudioUtils.Stop(_pushAudioSource);
+        }
+    }
 
     public void FixedUpdate()
     {
@@ -123,6 +140,7 @@ public class Character : MonoBehaviour
     {
         if(!GameManager.Instance.IsPowerUpActive(PowerUpIdentifier.PushBlocks))
         {
+            _stopPushAudioAt = Time.time + _pushAudioStopDelay;
             return;
         }
 
@@ -131,6 +149,18 @@ public class Character : MonoBehaviour
         {
             pushTarget.RigidbodyProxy.AddForce(-hit.normal.normalized * _pushForce * Time.fixedDeltaTime, ForceMode.VelocityChange);
             _currentMovementSpeed = _movementSpeed * 0.4f;
+            AudioUtils.Play(_pushAudioSource);
+            foreach(ParticleSystem ps in _jumpParticles)
+            {
+                if(ps != null)
+                {
+                    ps.Play();
+                }
+            }
+        }
+        else
+        {
+            _stopPushAudioAt = Time.time + _pushAudioStopDelay;
         }
     }
 
@@ -286,6 +316,7 @@ public class Character : MonoBehaviour
         }
         if(canJump && GameManager.Instance.IsPowerUpActive(PowerUpIdentifier.Jump))
         {
+            AudioUtils.PlayOneShot(_oneShotAudioSource, _jumpAudio);
             _verticalMovementVelocity = _jumpPower;
             _lastGroundedAt = 0;
         }
