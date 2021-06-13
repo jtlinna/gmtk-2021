@@ -3190,7 +3190,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-42432
+  m_Name: pb_Mesh35582
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6844,7 +6844,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7788779, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -8341,6 +8341,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MR_BEAN
       objectReference: {fileID: 0}
+    - target: {fileID: 5284078882526954493, guid: e274705451febf44ea077e7411c498a8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.000026345257
+      objectReference: {fileID: 0}
+    - target: {fileID: 5284078882526954493, guid: e274705451febf44ea077e7411c498a8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -9.358659
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e274705451febf44ea077e7411c498a8, type: 3}
 --- !u!114 &1315407715 stripped
@@ -9329,6 +9337,10 @@ PrefabInstance:
     - target: {fileID: 2132607704072605499, guid: e274705451febf44ea077e7411c498a8, type: 3}
       propertyPath: m_Name
       value: MR_BEAN
+      objectReference: {fileID: 0}
+    - target: {fileID: 5284078882526954493, guid: e274705451febf44ea077e7411c498a8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.000026464466
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e274705451febf44ea077e7411c498a8, type: 3}
@@ -10347,7 +10359,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-45528
+  m_Name: pb_Mesh35726
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -13513,6 +13525,7 @@ GameObject:
   - component: {fileID: 2110794514}
   - component: {fileID: 2110794513}
   - component: {fileID: 2110794516}
+  - component: {fileID: 2110794517}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -13619,3 +13632,35 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2110794517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110794512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
