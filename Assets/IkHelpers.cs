@@ -133,12 +133,12 @@ public class IkHelpers : MonoBehaviour
             SetLastPosition();
         }
         Ray ray = new Ray(_leftHandToucher.position, _rightHandToucher.forward);
-        if (Physics.Raycast(ray, out RaycastHit leftHit, _groapingDistance, _HandToucherLayerMask))
+        if (Physics.Raycast(ray, out RaycastHit leftHit, _groapingDistance, _HandToucherLayerMask, QueryTriggerInteraction.Ignore))
         {
             _leftHandPosition = leftHit.point;
         }
         ray = new Ray(_rightHandToucher.position, _rightHandToucher.forward);
-        if (Physics.Raycast(ray, out RaycastHit rightHit, _groapingDistance, _HandToucherLayerMask))
+        if (Physics.Raycast(ray, out RaycastHit rightHit, _groapingDistance, _HandToucherLayerMask, QueryTriggerInteraction.Ignore))
         {
             _rightHandPosition = rightHit.point;
         }
@@ -156,13 +156,13 @@ public class IkHelpers : MonoBehaviour
     void Stand()
     {
         Ray ray = new Ray(_leftRestingTarget.position, Vector3.down);
-        if (Physics.Raycast(ray, out RaycastHit leftHit, 10f))
+        if (Physics.Raycast(ray, out RaycastHit leftHit, 10f, int.MaxValue, QueryTriggerInteraction.Ignore))
         {
             _leftFootPosition = leftHit.point;
         }
 
         ray = new Ray(_rightRestingtTarget.position, Vector3.down);
-        if (Physics.Raycast(ray, out RaycastHit rightHit, 10f))
+        if (Physics.Raycast(ray, out RaycastHit rightHit, 10f, int.MaxValue, QueryTriggerInteraction.Ignore))
         {
             _rightFootPosition = rightHit.point;
         }
@@ -173,7 +173,7 @@ public class IkHelpers : MonoBehaviour
     void PlaceLeftFoot()
     {
         Ray ray = new Ray(_leftFootAim.position, Vector3.down);
-        if (Physics.Raycast(ray, out RaycastHit hit, 10f))
+        if (Physics.Raycast(ray, out RaycastHit hit, 10f, int.MaxValue, QueryTriggerInteraction.Ignore))
         {
             _leftFootPosition = hit.point;
         }
@@ -185,7 +185,7 @@ public class IkHelpers : MonoBehaviour
     void PlaceRightFoot()
     {
         Ray ray = new Ray(_rightFootAim.position, Vector3.down);
-        if (Physics.Raycast(ray, out RaycastHit hit, 10f))
+        if (Physics.Raycast(ray, out RaycastHit hit, 10f, int.MaxValue, QueryTriggerInteraction.Ignore))
         {
             _rightFootPosition = hit.point;
         }
