@@ -11514,6 +11514,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8300365142950885073, guid: faad3a38f97383e408b62ceccc0e8e8f, type: 3}
+      propertyPath: m_Radius
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8300365143575145776, guid: faad3a38f97383e408b62ceccc0e8e8f, type: 3}
       propertyPath: m_Name
       value: LifeSupport
