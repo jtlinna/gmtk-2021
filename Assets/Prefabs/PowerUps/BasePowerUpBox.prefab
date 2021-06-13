@@ -121,7 +121,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 785ddd7130bb0b34b82b5ae567f663ba, type: 3}
-  m_Color: {r: 0.23529412, g: 1, b: 1, a: 0.5882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -458,6 +458,7 @@ MonoBehaviour:
   _audioSource: {fileID: 4647025450334098476}
   _connectAudio: {fileID: 8300000, guid: 2b80417cf5d2075469d910c19f78eb92, type: 3}
   _disconnectAudio: {fileID: 8300000, guid: 4e7aefb24db5b0d4c814349c266ac4b7, type: 3}
+  _audioDelayFromStart: 0.25
 --- !u!1 &5317802838803306511
 GameObject:
   m_ObjectHideFlags: 0
