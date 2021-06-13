@@ -96,8 +96,23 @@ public class Tether : MonoBehaviour
     private float MaxDistance;
     [SerializeField]
     private List<TetherHandler> _tetherHandlers = new List<TetherHandler>();
+    [SerializeField]
+    private AudioSource _audioSource;
+    [SerializeField]
+    private AudioClip _connectAudio;
+    [SerializeField]
+    private AudioClip _disconnectAudio;
+    [SerializeField]
+    private float _audioDelayFromStart = 0.25f;
 
-    private readonly Dictionary<Character, TetherHandler> _tetherHandlerLookup = new Dictionary<Character, TetherHandler>(); 
+    private readonly Dictionary<Character, TetherHandler> _tetherHandlerLookup = new Dictionary<Character, TetherHandler>();
+
+    private float _audioAllowedAt;
+
+    private void Start()
+    {
+        _audioAllowedAt = Time.time + _audioDelayFromStart;
+    }
 
 
     public void OnCharacterEnter(Character character)
@@ -118,6 +133,11 @@ public class Tether : MonoBehaviour
         handler.LerpCounter = 0;
         handler.IsTethered = false;
         _tetherHandlerLookup[character] = handler;
+
+        if(Time.time >= _audioAllowedAt)
+        {
+            AudioUtils.PlayOneShot(_audioSource, _connectAudio);
+        }
     }
 
     public void OnCharacterExit(Character character)
@@ -133,6 +153,11 @@ public class Tether : MonoBehaviour
         handler.IsTethered = false;
         handler.LerpCounter = 0f;
         _tetherHandlerLookup.Remove(character);
+
+        if(Time.time >= _audioAllowedAt)
+        {
+            AudioUtils.PlayOneShot(_audioSource, _disconnectAudio);
+        }
     }
 
     void FixedUpdate()

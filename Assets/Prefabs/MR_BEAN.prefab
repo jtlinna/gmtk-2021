@@ -576,7 +576,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 1.7763158, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -5564,6 +5564,7 @@ MonoBehaviour:
   _oneShotAudioSource: {fileID: 1662961558870358606}
   _jumpAudio: {fileID: 8300000, guid: a4a953817970cbe4c97516be6fd56dae, type: 3}
   _landingAudio: {fileID: 8300000, guid: d8a5b24ff52f95d4e96e955133641c56, type: 3}
+  _dashAudio: {fileID: 8300000, guid: 423d65b1b56b5cc43ba9b67ea840b580, type: 3}
   _footStepAudioSource: {fileID: 1127938888562086712}
   _jumpParticles:
   - {fileID: 5468193369298304594}

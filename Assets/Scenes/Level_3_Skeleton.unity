@@ -1262,7 +1262,7 @@ MonoBehaviour:
   _characters:
   - {fileID: 1463930997}
   - {fileID: 1315407715}
-  _startingCharacter: {fileID: 1463930997}
+  _startingCharacter: {fileID: 1315407715}
   _maxTimeWithoutLifeSupport: 20
   _requiredCharactersAtEndForSuccess: 1
   _levelCompleteScreen: {fileID: 34732039}
