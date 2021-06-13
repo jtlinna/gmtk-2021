@@ -5560,6 +5560,7 @@ MonoBehaviour:
   _pushAudioStopDelay: 0.25
   _oneShotAudioSource: {fileID: 1662961558870358606}
   _jumpAudio: {fileID: 8300000, guid: a4a953817970cbe4c97516be6fd56dae, type: 3}
+  _landingAudio: {fileID: 8300000, guid: d8a5b24ff52f95d4e96e955133641c56, type: 3}
   _jumpParticles:
   - {fileID: 5468193369298304594}
   - {fileID: 5576110589165223309}

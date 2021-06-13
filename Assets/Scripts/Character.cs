@@ -41,9 +41,13 @@ public class Character : MonoBehaviour
     [SerializeField]
     private float _pushAudioStopDelay = 0.25f;
     [SerializeField]
+    private float _landingAudioDelay = 0.25f;
+    [SerializeField]
     private AudioSource _oneShotAudioSource;
     [SerializeField]
     private AudioClip _jumpAudio;
+    [SerializeField]
+    private AudioClip _landingAudio;
     [SerializeField]
     private ParticleSystem[] _jumpParticles = new ParticleSystem[0];
 
@@ -55,6 +59,9 @@ public class Character : MonoBehaviour
     private float _currentMovementSpeed = 0f;
     private float _lastGroundedAt;
     private float _stopPushAudioAt = 0f;
+    private float _landingAudioAllowedAt;
+
+    private bool _hasJumped = false;
 
     public void OnValidate()
     {
@@ -106,6 +113,12 @@ public class Character : MonoBehaviour
     public void FixedUpdate()
     {
         RecoverMovementSpeed();
+        if(_hasJumped && _characterController.isGrounded && Time.time >= _landingAudioAllowedAt)
+        {
+            AudioUtils.PlayOneShot(_oneShotAudioSource, _landingAudio);
+            _hasJumped = false;
+        }
+
         if(_blockUpdate)
         {
             return;
@@ -312,6 +325,8 @@ public class Character : MonoBehaviour
             AudioUtils.PlayOneShot(_oneShotAudioSource, _jumpAudio);
             _verticalMovementVelocity = _jumpPower;
             _lastGroundedAt = 0;
+            _hasJumped = true;
+            _landingAudioAllowedAt = Time.time + _landingAudioDelay;
             foreach(ParticleSystem ps in _jumpParticles)
             {
                 if(ps != null)
