@@ -37,7 +37,7 @@ public sealed class AudioManager
         _audioMixer = Resources.Load<AudioMixer>("AudioMixer");
         SetMusicEnabled(IsMusicEnabled);
         SetSoundsEnabled(IsSoundsEnabled);
-        GameObject musicSource = Resources.Load<GameObject>("MusicSource");
+        GameObject musicSource = Object.Instantiate(Resources.Load<GameObject>("MusicSource"));
         Object.DontDestroyOnLoad(musicSource);
     }
 
