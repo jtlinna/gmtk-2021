@@ -618,6 +618,10 @@ PrefabInstance:
       value: MenuCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 6078589345427728493, guid: c589a454ec4ff00418fce591786af2a1, type: 3}
+      propertyPath: _nextSceneIndex
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078589345427728493, guid: c589a454ec4ff00418fce591786af2a1, type: 3}
       propertyPath: _transitionHandler
       value: 
       objectReference: {fileID: 2081798595}
