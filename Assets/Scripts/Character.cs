@@ -51,6 +51,8 @@ public class Character : MonoBehaviour
     [SerializeField]
     private AudioClip _landingAudio;
     [SerializeField]
+    private AudioClip _dashAudio;
+    [SerializeField]
     private AudioSource _footStepAudioSource;
     [SerializeField]
     private ParticleSystem[] _jumpParticles = new ParticleSystem[0];
@@ -271,10 +273,15 @@ public class Character : MonoBehaviour
 
     public void LevelCompleted()
     {
-        if (_ikHelper != null)
+        if(_ikHelper != null)
         {
             _ikHelper.SetAsWon();
         }
+        PlayJumpParticles();
+    }
+
+    private void PlayJumpParticles()
+    {
         foreach(ParticleSystem ps in _jumpParticles)
         {
             if(ps != null)
@@ -298,6 +305,8 @@ public class Character : MonoBehaviour
 
         _blockUpdate = true;
 
+        AudioUtils.PlayOneShot(_oneShotAudioSource, _jumpAudio);
+
         while(preparationTimer > 0f)
         {
             preparationTimer -= Time.deltaTime;
@@ -309,6 +318,8 @@ public class Character : MonoBehaviour
             yield return null;
         }
 
+        AudioUtils.PlayOneShot(_oneShotAudioSource, _dashAudio);
+        PlayJumpParticles();
         while(dashTimer > 0f)
         {
             dashTimer -= Time.deltaTime;
@@ -364,13 +375,7 @@ public class Character : MonoBehaviour
             _lastGroundedAt = 0;
             _hasJumped = true;
             _landingAudioAllowedAt = Time.time + _landingAudioDelay;
-            foreach(ParticleSystem ps in _jumpParticles)
-            {
-                if(ps != null)
-                {
-                    ps.Play();
-                }
-            }
+            PlayJumpParticles();
         }
     }
 
