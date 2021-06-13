@@ -12,6 +12,13 @@ public class LifeSupportElement : MonoBehaviour
     private AudioSource _alertAudioSource;
     [SerializeField]
     private float _alertSoundThreshold = 0.4f;
+    [SerializeField]
+    private Color _mainColor = Color.cyan;
+    [SerializeField]
+    private Color _lowOxygenColor = Color.red;
+
+    [SerializeField]
+    private Image _barIcon = null;
 
     private void OnValidate()
     {
@@ -28,7 +35,10 @@ public class LifeSupportElement : MonoBehaviour
         {
             _progressBar.value = GameManager.Instance.LifeSupportPercentage;
         }
+        
     }
+
+    
 
     private void Update()
     {
@@ -46,6 +56,15 @@ public class LifeSupportElement : MonoBehaviour
         else
         {
             AudioUtils.Stop(_alertAudioSource);
+        }
+
+        if (_progressBar.value > _alertSoundThreshold)
+        {
+            _barIcon.color = _mainColor;
+        }
+        else
+        {
+            _barIcon.color = _lowOxygenColor;
         }
     }
 }
