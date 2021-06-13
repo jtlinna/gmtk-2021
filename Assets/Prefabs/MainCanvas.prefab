@@ -1491,6 +1491,9 @@ MonoBehaviour:
   _adjustmentSpeed: 0.5
   _alertAudioSource: {fileID: 8029812224563605466}
   _alertSoundThreshold: 0.4
+  _mainColor: {r: 0, g: 0.9797907, b: 1, a: 1}
+  _lowOxygenColor: {r: 1, g: 0.5700793, b: 0.4198113, a: 1}
+  _barIcon: {fileID: 7115158321445175644}
 --- !u!1 &4276959611307310470
 GameObject:
   m_ObjectHideFlags: 0
