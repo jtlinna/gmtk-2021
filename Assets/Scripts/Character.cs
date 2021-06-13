@@ -150,13 +150,6 @@ public class Character : MonoBehaviour
             pushTarget.RigidbodyProxy.AddForce(-hit.normal.normalized * _pushForce * Time.fixedDeltaTime, ForceMode.VelocityChange);
             _currentMovementSpeed = _movementSpeed * 0.4f;
             AudioUtils.Play(_pushAudioSource);
-            foreach(ParticleSystem ps in _jumpParticles)
-            {
-                if(ps != null)
-                {
-                    ps.Play();
-                }
-            }
         }
         else
         {
@@ -319,6 +312,13 @@ public class Character : MonoBehaviour
             AudioUtils.PlayOneShot(_oneShotAudioSource, _jumpAudio);
             _verticalMovementVelocity = _jumpPower;
             _lastGroundedAt = 0;
+            foreach(ParticleSystem ps in _jumpParticles)
+            {
+                if(ps != null)
+                {
+                    ps.Play();
+                }
+            }
         }
     }
 
