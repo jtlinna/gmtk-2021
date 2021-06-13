@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 5317802838222832240}
   - component: {fileID: 5317802838222832271}
   m_Layer: 0
-  m_Name: CurveDemo 1
+  m_Name: Tether
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,9 +124,9 @@ MonoBehaviour:
   _originPointTransform: {fileID: 3337102916445185668}
   _targetPointTransform: {fileID: 5212161597763916230}
   _linerenderer: {fileID: 5317802838803306992}
-  _vertexCount: 30
-  _smoothTime: 0.3
-  _maxSpeed: 6
+  _vertexCount: 30.7
+  _smoothTime: 10
+  _maxSpeed: 30
   curve:
     serializedVersion: 2
     m_Curve:
@@ -138,15 +138,24 @@ MonoBehaviour:
       tangentMode: 0
       weightedMode: 3
       inWeight: 0
-      outWeight: 0.8190462
+      outWeight: 0.47680813
+    - serializedVersion: 3
+      time: 0.7692287
+      value: 7.5167923
+      inSlope: -36.553795
+      outSlope: -36.553795
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.32833153
+      outWeight: 0.51460254
     - serializedVersion: 3
       time: 1
       value: 0.3
-      inSlope: -11.7
-      outSlope: -11.7
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
+      inSlope: -1.4645705
+      outSlope: -1.4645705
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 1
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -253,6 +262,24 @@ LineRenderer:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.3312693
+        value: 0.66197187
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.79566556
+        value: 0.971831
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4

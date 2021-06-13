@@ -37,6 +37,11 @@ public class Character : MonoBehaviour
     [SerializeField]
     private float _yeetForce = 420f;
 
+    [SerializeField]
+    private Transform _tetherTarget = null;
+
+    public Transform GetTetherTransform => _tetherTarget;
+
     private float _currentMovementSpeed = 0f;
     private float _lastGroundedAt;
 

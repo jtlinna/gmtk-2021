@@ -89,12 +89,12 @@ public class Tether : MonoBehaviour
                                MaxDistance);
             if (_isTethered)
             {
-                _targetPointTransform.position = _connectedCharacter.transform.position;
+                _targetPointTransform.position = _connectedCharacter.GetTetherTransform.position;
             }
             else
             {
-                _targetPointTransform.position = Vector3.Lerp(_targetPointTransform.position, _connectedCharacter.transform.position, _lerpCounter += Time.fixedDeltaTime / 5);
-                if (Vector3.Distance(_targetPointTransform.position, _connectedCharacter.transform.position) <= _distanceThreshold)
+                _targetPointTransform.position = Vector3.Lerp(_targetPointTransform.position, _connectedCharacter.GetTetherTransform.position, _lerpCounter += Time.fixedDeltaTime / 5);
+                if (Vector3.Distance(_targetPointTransform.position, _connectedCharacter.GetTetherTransform.position) <= _distanceThreshold)
                 {
                     _isTethered = true;
                 }
