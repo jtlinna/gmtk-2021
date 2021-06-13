@@ -66974,6 +66974,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7931426746989962793, guid: b1f4523d80a30ea46ba9970c0aa2fe69, type: 3}
+      propertyPath: m_text
+      value: AstroBeans are saved!
+      objectReference: {fileID: 0}
     - target: {fileID: 7931426747910364314, guid: b1f4523d80a30ea46ba9970c0aa2fe69, type: 3}
       propertyPath: _nextSceneIndex
       value: 0
@@ -67074,6 +67078,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7931426748064138826, guid: b1f4523d80a30ea46ba9970c0aa2fe69, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 350d4c5f645bc8940a84b545436d8ce8, type: 3}
+    - target: {fileID: 7931426748064138827, guid: b1f4523d80a30ea46ba9970c0aa2fe69, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b6e5ccd750a84ff43b157352ada5a89d, type: 3}
+    - target: {fileID: 7931426748064138827, guid: b1f4523d80a30ea46ba9970c0aa2fe69, type: 3}
+      propertyPath: m_SpriteState.m_DisabledSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 350d4c5f645bc8940a84b545436d8ce8, type: 3}
+    - target: {fileID: 7931426748064138827, guid: b1f4523d80a30ea46ba9970c0aa2fe69, type: 3}
+      propertyPath: m_SpriteState.m_SelectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3d8929c272372cc4fbfcc2a4970f4f03, type: 3}
+    - target: {fileID: 7931426748064138827, guid: b1f4523d80a30ea46ba9970c0aa2fe69, type: 3}
+      propertyPath: m_SpriteState.m_HighlightedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3d8929c272372cc4fbfcc2a4970f4f03, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1f4523d80a30ea46ba9970c0aa2fe69, type: 3}
 --- !u!1 &1884187974 stripped
