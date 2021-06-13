@@ -1800,7 +1800,6 @@ GameObject:
   - component: {fileID: 4478092215821142164}
   - component: {fileID: 6493266103331495580}
   - component: {fileID: 6057899896493599586}
-  - component: {fileID: 2953106637451308330}
   - component: {fileID: 8518273139474014870}
   m_Layer: 5
   m_Name: ReloadLevelButton
@@ -1897,7 +1896,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: bdd8b9e7452d358448771bb0482e6382, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 8a3d5a7e272f9e847a7b14990aa2082b, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: 8a3d5a7e272f9e847a7b14990aa2082b, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: bdd8b9e7452d358448771bb0482e6382, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: 699c1e07418946f458bf71bf1f51a876, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -1946,18 +1945,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2953106637451308330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6686231999685513348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be668f5cdaa81df48a48b282d22d5b8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8518273139474014870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2683,7 +2670,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: bdd8b9e7452d358448771bb0482e6382, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 8a3d5a7e272f9e847a7b14990aa2082b, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: 8a3d5a7e272f9e847a7b14990aa2082b, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: bdd8b9e7452d358448771bb0482e6382, type: 3}
     m_DisabledSprite: {fileID: 21300000, guid: 699c1e07418946f458bf71bf1f51a876, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
